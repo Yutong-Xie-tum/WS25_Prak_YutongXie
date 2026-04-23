@@ -1,1 +1,13 @@
 # WS25_Prak_YutongXie
+
+## Project Overview
+
+This project aims to implement an automated soil moisture monitoring and irrigation system by integrating hardware devices, embedded-side code, service communication, workflow orchestration, and a user interface into one complete project. The system mainly consists of a soil moisture sensor, an Orange Pi, services deployed on Lehre, CPEE workflow models, robot-related programs, and a front-end interface.
+
+## Project Workflow
+
+The core implementation of this project is a complete communication workflow for soil moisture data, spanning from the Orange Pi to Lehre and finally to CPEE.
+
+First, the soil moisture sensor data is collected on the Orange Pi, where the corresponding service interface is also implemented. Since Lehre cannot directly access the Pi because it is located within a private network, port `18080` on the Orange Pi was forwarded to Lehre. This enabled Lehre to access the data interface hosted on the Orange Pi, allowing CPEE to send requests to the Orange Pi via Lehre and retrieve the current soil moisture status.
+
+Instead of adopting a continuous periodic data-pushing mechanism, this project uses an on-demand communication model: the Orange Pi reads and transmits the current data only when a request is issued by CPEE. This approach avoids unnecessary repeated transmissions and reduces overall system resource consumption.
