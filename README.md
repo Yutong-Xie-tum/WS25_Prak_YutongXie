@@ -28,7 +28,9 @@ This repository contains the main files of the project, including the CPEE model
 │   └── humidity.html
 ├── orange_pi/
 │   └── soil_sensor.py
-└── video/
+└── media/
+    └── demo_video_link.txt
+    └── demo_video_link.txt
     └── demo_video_link.txt
 
 ## Notes
