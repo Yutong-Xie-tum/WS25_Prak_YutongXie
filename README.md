@@ -30,3 +30,13 @@ This repository contains the main files of the project, including the CPEE model
 │   └── soil_sensor.py
 └── video/
     └── demo_video_link.txt
+
+## Notes
+
+This repository is for academic project use only. Unauthorized redistribution or commercial use of the project materials is not permitted.
+
+## Author
+
+Technical University of Munich (TUM)  
+Yutong Xie  
+Student ID: ge94zaj
