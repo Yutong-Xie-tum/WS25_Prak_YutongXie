@@ -32,6 +32,7 @@ This repository contains the main files of the project, including the CPEE model
     └── demo_video_link.txt
     └── dry.png
     └── wet.png
+```
 
 ## UI Showcase
 
