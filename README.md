@@ -37,7 +37,7 @@ This repository contains the main files of the project, including the CPEE model
 ## UI Showcase
 
 The user interface of this project is designed to display the current soil moisture status in a clear and intuitive way.  
-Instead of showing the raw sensor values (`0` / `1`), the interface presents human-readable states: **Dry** and **Wet**.
+The raw sensor values presents 2 states: **Dry** and **Wet**.
 
 The UI provides the following information:
 
