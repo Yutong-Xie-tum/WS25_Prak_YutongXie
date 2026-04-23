@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Soil Humidity Monitor</title>
+  <style>
+    :root {
+      --bg1: #eef7f2;
+      --bg2: #e8f2ff;
+      --card: rgba(255, 255, 255, 0.88);
+      --text: #18222d;
+      --muted: #6e7b87;
+      --line: rgba(24, 34, 45, 0.08);
+      --shadow: 0 20px 60px rgba(18, 38, 63, 0.12);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: Inter, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(124, 240, 174, 0.18), transparent 24%),
+        radial-gradient(circle at bottom right, rgba(127, 201, 255, 0.20), transparent 26%),
+        linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 100%);
+    }
+
+    body {
+      padding: 28px 16px 40px;
+    }
+
+    .page {
+      width: min(1080px, 100%);
+      margin: 0 auto;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .hero-icon {
+      width: 74px;
+      height: 74px;
+      margin: 0 auto 14px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 34px;
+      background: rgba(255,255,255,0.8);
+      box-shadow: var(--shadow);
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+
+    .hero p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.7);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius-xl);
+      backdrop-filter: blur(10px);
+    }
+
+    .status-card {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+      align-items: center;
+      padding: 28px;
+    }
+
+    .status-left {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .status-badge {
+      width: 112px;
+      height: 112px;
+      border-radius: 24px;
+      display: grid;
+      place-items: center;
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      flex-shrink: 0;
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .status-texts h2 {
+      margin: 0 0 10px;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      line-height: 1;
+    }
+
+    .status-texts p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.04rem;
+    }
+
+    .hint {
+      margin-top: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .status-right {
+      display: flex;
+      justify-content: center;
+    }
+
+    .ring {
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      padding: 16px;
+      position: relative;
+      display: grid;
+      place-items: center;
+    }
+
+    .ring::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+    }
+
+    .ring-inner {
+      width: 155px;
+      height: 155px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      box-shadow: inset 0 0 0 1px rgba(24, 34, 45, 0.05);
+      padding: 10px;
+    }
+
+    .ring-label {
+      display: block;
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-bottom: 4px;
+    }
+
+    .ring-inner strong {
+      font-size: 1.6rem;
+    }
+
+    .info-grid {
+      margin-top: 18px;
+      padding: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .info-item {
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      background: rgba(255,255,255,0.66);
+      border: 1px solid var(--line);
+    }
+
+    .info-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      font-size: 1.35rem;
+      background: rgba(24, 34, 45, 0.05);
+      flex-shrink: 0;
+    }
+
+    .label {
+      display: block;
+      font-size: 0.84rem;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+
+    .info-item strong {
+      display: block;
+      font-size: 1.05rem;
+    }
+
+    .info-item small {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .tip {
+      margin-top: 18px;
+      padding: 18px 20px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      border-radius: var(--radius-lg);
+      background: rgba(255,255,255,0.82);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .tip p {
+      margin: 0;
+      font-size: 0.98rem;
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    /* DRY */
+    body.state-dry .status-badge {
+      background: linear-gradient(135deg, #fff1e8, #ffd8b8);
+      color: #d96a08;
+    }
+
+    body.state-dry .status-texts h2,
+    body.state-dry .ring-inner strong,
+    body.state-dry .hint {
+      color: #d96a08;
+    }
+
+    body.state-dry .ring::before {
+      background: conic-gradient(#ef8a17 0 28%, rgba(24,34,45,0.08) 28% 100%);
+    }
+
+    body.state-dry .tip {
+      background: linear-gradient(135deg, rgba(255,244,230,0.96), rgba(255,250,245,0.92));
+    }
+
+    /* WET */
+    body.state-wet .status-badge {
+      background: linear-gradient(135deg, #e8fff6, #d4f8ea);
+      color: #13895c;
+    }
+
+    body.state-wet .status-texts h2,
+    body.state-wet .ring-inner strong,
+    body.state-wet .hint {
+      color: #13895c;
+    }
+
+    body.state-wet .ring::before {
+      background: conic-gradient(#18b87b 0 72%, rgba(24,34,45,0.08) 72% 100%);
+    }
+
+    body.state-wet .tip {
+      background: linear-gradient(135deg, rgba(233,255,246,0.96), rgba(248,255,251,0.92));
+    }
+
+    /* UNKNOWN */
+    body.state-unknown .status-badge {
+      background: linear-gradient(135deg, #f1f4f7, #e7edf3);
+      color: #607080;
+    }
+
+    body.state-unknown .status-texts h2,
+    body.state-unknown .ring-inner strong,
+    body.state-unknown .hint {
+      color: #607080;
+    }
+
+    body.state-unknown .ring::before {
+      background: conic-gradient(#94a3b8 0 50%, rgba(24,34,45,0.08) 50% 100%);
+    }
+
+    @media (max-width: 860px) {
+      .status-card {
+        grid-template-columns: 1fr;
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .status-left {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .status-badge {
+        width: 92px;
+        height: 92px;
+        border-radius: 20px;
+      }
+
+      .ring {
+        width: 200px;
+        height: 200px;
+      }
+
+      .ring-inner {
+        width: 130px;
+        height: 130px;
+      }
+    }
+  </style>
+</head>
+<body class="state-unknown">
+  <main class="page">
+    <header class="hero">
+      <div class="hero-icon">💧</div>
+      <h1>Soil Humidity Monitor</h1>
+      <p>Real-time soil moisture status for your plant</p>
+    </header>
+
+    <section class="card status-card">
+      <div class="status-left">
+        <div class="status-badge" id="statusBadge">--</div>
+
+        <div class="status-texts">
+          <div class="eyebrow">Current Status</div>
+          <h2 id="statusText">Unknown</h2>
+          <p id="statusDesc">No valid humidity data available.</p>
+          <div class="hint" id="statusHint">Waiting for sensor data</div>
+        </div>
+      </div>
+
+      <div class="status-right">
+        <div class="ring" id="ring">
+          <div class="ring-inner">
+            <div>
+              <span class="ring-label">Moisture Level</span>
+              <strong id="ringText">--</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card info-grid">
+      <div class="info-item">
+        <div class="info-icon">📍</div>
+        <div>
+          <span class="label">Sensor Pin</span>
+          <strong id="sensorPin">--</strong>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <div class="info-icon">🕒</div>
+        <div>
+          <span class="label">Last Updated</span>
+          <strong id="timeText">--</strong>
+          <small id="relativeTime">--</small>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <div class="info-icon">📡</div>
+        <div>
+          <span class="label">Monitoring</span>
+          <strong>Live Status</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="tip">
+      <div>ℹ️</div>
+      <p id="tipText">Waiting for sensor data...</p>
+    </section>
+
+    <div class="footer-note">Better soil. Better plants.</div>
+  </main>
+
+  <script>
+    function parseQuery() {
+      const params = new URLSearchParams(window.location.search);
+      const out = {};
+      for (const [k, v] of params.entries()) {
+        out[k] = v;
+      }
+      return out;
+    }
+
+    function normalizeStatus(data) {
+      const soil = (data.soil_status || "").toLowerCase().trim();
+      const raw = data.raw_state;
+
+      if (soil === "dry") return "dry";
+      if (soil === "wet") return "wet";
+
+      if (raw === "1" || raw === 1) return "dry";
+      if (raw === "0" || raw === 0) return "wet";
+
+      return "unknown";
+    }
+
+    function formatTimestamp(ts) {
+      if (!ts) return "--";
+      const num = Number(ts);
+      if (Number.isNaN(num)) return "--";
+
+      const ms = String(ts).length === 13 ? num : num * 1000;
+      const d = new Date(ms);
+
+      return d.toLocaleString("en-GB", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false
+      }).replace(",", "");
+    }
+
+    function relativeTime(ts) {
+      if (!ts) return "--";
+      const num = Number(ts);
+      if (Number.isNaN(num)) return "--";
+
+      const ms = String(ts).length === 13 ? num : num * 1000;
+      const diff = Date.now() - ms;
+
+      if (diff < 0) return "from the future";
+
+      const sec = Math.floor(diff / 1000);
+      const min = Math.floor(sec / 60);
+      const hour = Math.floor(min / 60);
+      const day = Math.floor(hour / 24);
+
+      if (sec < 10) return "updated just now";
+      if (sec < 60) return `updated ${sec} seconds ago`;
+      if (min < 60) return `updated ${min} minutes ago`;
+      if (hour < 24) return `updated ${hour} hours ago`;
+      return `updated ${day} days ago`;
+    }
+
+    function applyUI(data) {
+      const status = normalizeStatus(data);
+
+      document.body.className = "state-" + status;
+
+      const statusBadge = document.getElementById("statusBadge");
+      const statusText = document.getElementById("statusText");
+      const statusDesc = document.getElementById("statusDesc");
+      const statusHint = document.getElementById("statusHint");
+      const ringText = document.getElementById("ringText");
+      const sensorPin = document.getElementById("sensorPin");
+      const timeText = document.getElementById("timeText");
+      const relativeText = document.getElementById("relativeTime");
+      const tipText = document.getElementById("tipText");
+
+      if (status === "dry") {
+        statusBadge.textContent = "DRY";
+        statusText.textContent = "Dry";
+        statusDesc.textContent = "Soil needs watering soon.";
+        statusHint.textContent = "Low moisture detected";
+        ringText.textContent = "Low";
+        tipText.textContent = "Low moisture detected. Water the plant soon.";
+      } else if (status === "wet") {
+        statusBadge.textContent = "WET";
+        statusText.textContent = "Wet";
+        statusDesc.textContent = "Soil moisture is in a healthy state.";
+        statusHint.textContent = "Moisture level is good";
+        ringText.textContent = "Good";
+        tipText.textContent = "Soil moisture looks healthy. No watering needed now.";
+      } else {
+        statusBadge.textContent = "--";
+        statusText.textContent = "Unknown";
+        statusDesc.textContent = "No valid humidity data available.";
+        statusHint.textContent = "Waiting for sensor data";
+        ringText.textContent = "--";
+        tipText.textContent = "Unable to determine soil status.";
+      }
+
+      sensorPin.textContent = data.sensor_pin || "--";
+      timeText.textContent = formatTimestamp(data.timestamp);
+      relativeText.textContent = relativeTime(data.timestamp);
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const queryData = parseQuery();
+      applyUI(queryData);
+    });
+  </script>
+</body>
+</html>
