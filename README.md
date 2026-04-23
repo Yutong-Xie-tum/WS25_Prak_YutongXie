@@ -29,7 +29,6 @@ This repository contains the main files of the project, including the CPEE model
 ├── orange_pi/
 │   └── soil_sensor.py
 └── media/
-    └── demo_video_link.txt
     └── dry.png
     └── wet.png
 ```
@@ -61,6 +60,11 @@ This page is shown when the sensor detects a wet soil condition.
 The interface indicates that the soil moisture is in a healthy state and no watering is needed.
 
 ![Wet State UI](media/wet.png)
+
+## Demo Video
+
+The experimental demonstration video of this project is available here:  
+[YouTube Video](https://youtube.com/shorts/zLkMKInuSic?feature=share)
 
 ## Notes
 
