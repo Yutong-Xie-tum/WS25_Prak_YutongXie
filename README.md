@@ -30,8 +30,36 @@ This repository contains the main files of the project, including the CPEE model
 │   └── soil_sensor.py
 └── media/
     └── demo_video_link.txt
-    └── demo_video_link.txt
-    └── demo_video_link.txt
+    └── dry.png
+    └── wet.png
+
+## UI Showcase
+
+The user interface of this project is designed to display the current soil moisture status in a clear and intuitive way.  
+Instead of showing the raw sensor values (`0` / `1`), the interface presents human-readable states: **Dry** and **Wet**.
+
+The UI provides the following information:
+
+- **Current Status**: Displays whether the soil is currently dry or wet
+- **Moisture Level**: Visualized with a circular indicator
+- **Sensor Pin**: Shows the connected sensor pin
+- **Last Updated**: Displays the latest timestamp of the received data
+- **Monitoring Status**: Indicates that the system is running in live monitoring mode
+- **Status Message**: Provides a short explanation of the current soil condition
+
+### Dry State UI
+
+This page is shown when the sensor detects a dry soil condition.  
+The interface highlights the dry state and indicates that watering is needed soon.
+
+![Dry State UI](media/dry.png)
+
+### Wet State UI
+
+This page is shown when the sensor detects a wet soil condition.  
+The interface indicates that the soil moisture is in a healthy state and no watering is needed.
+
+![Wet State UI](media/wet.png)
 
 ## Notes
 
