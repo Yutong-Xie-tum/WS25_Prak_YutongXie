@@ -14,12 +14,19 @@ Instead of adopting a continuous periodic data-pushing mechanism, this project u
 
 ## Repository Structure
 
-This repository contains the main implementation files and project materials required for the project:
+This repository contains the main files of the project, including the CPEE model, robot programs, the Lehre-side interface, and the Orange Pi code.
 
 ```text
 .
 ├── README.md
-├── video/                 # Project demo video or video link-related files
-├── orange_pi/             # Code running on the Orange Pi
-├── robot_programs/        # Robot-related programs
-└── lehre_code/            # Code and scripts running on Lehre
+├── cpee/
+│   └── gustav.xml
+├── robot_programs/
+│   ├── home.urp
+│   └── watering.urp
+├── lehre_code/
+│   └── humidity.html
+├── orange_pi/
+│   └── soil_sensor.py
+└── video/
+    └── demo_video_link.txt
