@@ -11,3 +11,15 @@ The core implementation of this project is a complete communication workflow for
 First, the soil moisture sensor data is collected on the Orange Pi, where the corresponding service interface is also implemented. Since Lehre cannot directly access the Pi because it is located within a private network, port `18080` on the Orange Pi was forwarded to Lehre. This enabled Lehre to access the data interface hosted on the Orange Pi, allowing CPEE to send requests to the Orange Pi via Lehre and retrieve the current soil moisture status.
 
 Instead of adopting a continuous periodic data-pushing mechanism, this project uses an on-demand communication model: the Orange Pi reads and transmits the current data only when a request is issued by CPEE. This approach avoids unnecessary repeated transmissions and reduces overall system resource consumption.
+
+## Repository Structure
+
+This repository contains the main implementation files and project materials required for the project:
+
+```text
+.
+├── README.md
+├── video/                 # Project demo video or video link-related files
+├── orange_pi/             # Code running on the Orange Pi
+├── robot_programs/        # Robot-related programs
+└── lehre_code/            # Code and scripts running on Lehre
