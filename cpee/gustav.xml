@@ -2,7 +2,7 @@
   <executionhandler>ruby</executionhandler>
   <dataelements>
     <humidity>1</humidity>
-    <timestamp>1776960306</timestamp>
+    <timestamp>1776974205</timestamp>
     <raw_state>1</raw_state>
     <soil_status>dry</soil_status>
     <sensor_pin>PH2</sensor_pin>
@@ -26,7 +26,7 @@
     <info>gustav</info>
     <creator>Christine Ashcreek</creator>
     <author>Christine Ashcreek</author>
-    <model_uuid>9bf545b8-dc13-4d53-bcb9-800c3dc277f7</model_uuid>
+    <model_uuid>a613780b-5160-4558-b8bd-2d124da81603</model_uuid>
     <model_version/>
     <design_dir>Teaching.dir/Prak.dir/TUM-Prak-25-WS.dir/XieYutong.dir/</design_dir>
     <design_stage>development</design_stage>
@@ -34,130 +34,6 @@
   </attributes>
   <description>
     <description xmlns="http://cpee.org/ns/description/1.0">
-      <call id="a7" endpoint="frames_init">
-        <parameters>
-          <label>Initialize Frames</label>
-          <color/>
-          <arguments>
-            <style_url>https://lehre.bpm.in.tum.de/~ge94zaj/humidity.css</style_url>
-            <document_url/>
-            <x_amount>5</x_amount>
-            <y_amount>3</y_amount>
-            <lang>de-at</lang>
-            <document_name>Gustav</document_name>
-          </arguments>
-        </parameters>
-        <code>
-          <signal>false</signal>
-          <prepare>endpoints.frames_init += attributes.fid</prepare>
-          <finalize output="result"/>
-          <update output="result"/>
-          <rescue output="result"/>
-        </code>
-        <annotations>
-          <_generic/>
-          <_logging_behavior>
-            <_exclude>false</_exclude>
-            <_include>false</_include>
-          </_logging_behavior>
-          <_timing>
-            <_timing_weight/>
-            <_timing_avg/>
-            <explanations/>
-          </_timing>
-          <_shifting>
-            <_shifting_type>Duration</_shifting_type>
-          </_shifting>
-          <_context_data_analysis>
-            <probes/>
-            <ips/>
-          </_context_data_analysis>
-          <report>
-            <url/>
-          </report>
-          <_notes>
-            <_notes_general/>
-          </_notes>
-        </annotations>
-        <documentation>
-          <input/>
-          <output/>
-          <implementation>
-            <description/>
-          </implementation>
-          <code>
-            <description/>
-          </code>
-        </documentation>
-      </call>
-      <call id="a14" endpoint="frames_display">
-        <parameters>
-          <label>Display Measuring Message</label>
-          <color/>
-          <arguments>
-            <type>set</type>
-            <lx>0</lx>
-            <ly>0</ly>
-            <x_amount>8</x_amount>
-            <y_amount>6</y_amount>
-            <button/>
-            <style/>
-            <urls>
-              <urls_item>
-                <lang>de-at</lang>
-                <url>https://lehre.bpm.in.tum.de/~ge94zaj/humidity.html</url>
-              </urls_item>
-            </urls>
-            <default>
-              <message>Soil Humidity: unkonwn</message>
-              <humidity>unkonwn</humidity>
-            </default>
-          </arguments>
-        </parameters>
-        <code>
-          <signal>false</signal>
-          <prepare>endpoints.frames_display += attributes.fid</prepare>
-          <finalize output="result"/>
-          <update output="result"/>
-          <rescue output="result"/>
-        </code>
-        <annotations>
-          <_generic/>
-          <_logging_behavior>
-            <_exclude>false</_exclude>
-            <_include>false</_include>
-          </_logging_behavior>
-          <_timing>
-            <_timing_weight/>
-            <_timing_avg/>
-            <explanations/>
-          </_timing>
-          <_shifting>
-            <_shifting_type>Duration</_shifting_type>
-          </_shifting>
-          <_context_data_analysis>
-            <probes/>
-            <ips/>
-          </_context_data_analysis>
-          <report>
-            <url/>
-          </report>
-          <_notes>
-            <_notes_general/>
-          </_notes>
-        </annotations>
-        <documentation>
-          <input/>
-          <output/>
-          <implementation>
-            <description/>
-          </implementation>
-          <code>
-            <description/>
-          </code>
-        </documentation>
-      </call>
-      <stop id="a8"/>
       <call id="a4" endpoint="humidity">
         <parameters>
           <label>Get Data from Lehre</label>
@@ -216,75 +92,6 @@ data.sensor_pin = result["sensor_pin"]</finalize>
           </code>
         </documentation>
       </call>
-      <call id="a6" endpoint="frames_display">
-        <parameters>
-          <label>Display Measuring Message</label>
-          <color/>
-          <arguments>
-            <type>set</type>
-            <lx>0</lx>
-            <ly>0</ly>
-            <x_amount>8</x_amount>
-            <y_amount>6</y_amount>
-            <button/>
-            <style/>
-            <urls>
-              <urls_item>
-                <lang>de-at</lang>
-                <url>https://lehre.bpm.in.tum.de/~ge94zaj/humidity.html</url>
-              </urls_item>
-            </urls>
-            <default>
-              <raw_state>!data.humidity</raw_state>
-              <sensor_pin>PH2</sensor_pin>
-              <timestamp>!data.timestamp</timestamp>
-            </default>
-          </arguments>
-        </parameters>
-        <code>
-          <signal>false</signal>
-          <prepare>endpoints.frames_display += attributes.fid</prepare>
-          <finalize output="result"/>
-          <update output="result"/>
-          <rescue output="result"/>
-        </code>
-        <annotations>
-          <_generic/>
-          <_logging_behavior>
-            <_exclude>false</_exclude>
-            <_include>false</_include>
-          </_logging_behavior>
-          <_timing>
-            <_timing_weight/>
-            <_timing_avg/>
-            <explanations/>
-          </_timing>
-          <_shifting>
-            <_shifting_type>Duration</_shifting_type>
-          </_shifting>
-          <_context_data_analysis>
-            <probes/>
-            <ips/>
-          </_context_data_analysis>
-          <report>
-            <url/>
-          </report>
-          <_notes>
-            <_notes_general/>
-          </_notes>
-        </annotations>
-        <documentation>
-          <input/>
-          <output/>
-          <implementation>
-            <description/>
-          </implementation>
-          <code>
-            <description/>
-          </code>
-        </documentation>
-      </call>
-      <stop id="a12"/>
       <choose mode="exclusive" label="Decide whether to run or not">
         <alternative eid="e1" condition="data.humidity.to_i == 1">
           <_probability>
