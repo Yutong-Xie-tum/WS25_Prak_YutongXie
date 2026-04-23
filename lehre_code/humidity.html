@@ -252,7 +252,6 @@
       font-size: 0.94rem;
     }
 
-    /* DRY */
     body.state-dry .status-badge {
       background: linear-gradient(135deg, #fff1e8, #ffd8b8);
       color: #d96a08;
@@ -272,7 +271,6 @@
       background: linear-gradient(135deg, rgba(255,244,230,0.96), rgba(255,250,245,0.92));
     }
 
-    /* WET */
     body.state-wet .status-badge {
       background: linear-gradient(135deg, #e8fff6, #d4f8ea);
       color: #13895c;
@@ -292,7 +290,6 @@
       background: linear-gradient(135deg, rgba(233,255,246,0.96), rgba(248,255,251,0.92));
     }
 
-    /* UNKNOWN */
     body.state-unknown .status-badge {
       background: linear-gradient(135deg, #f1f4f7, #e7edf3);
       color: #607080;
@@ -363,7 +360,7 @@
       </div>
 
       <div class="status-right">
-        <div class="ring" id="ring">
+        <div class="ring">
           <div class="ring-inner">
             <div>
               <span class="ring-label">Moisture Level</span>
@@ -396,7 +393,7 @@
         <div class="info-icon">📡</div>
         <div>
           <span class="label">Monitoring</span>
-          <strong>Live Status</strong>
+          <strong id="monitorText">Live Status</strong>
         </div>
       </div>
     </section>
@@ -410,18 +407,12 @@
   </main>
 
   <script>
-    function parseQuery() {
-      const params = new URLSearchParams(window.location.search);
-      const out = {};
-      for (const [k, v] of params.entries()) {
-        out[k] = v;
-      }
-      return out;
-    }
+    // 改成你的真实接口地址
+    const API_URL = "https://lehre.bpm.in.tum.de/ports/18080/current";
 
     function normalizeStatus(data) {
-      const soil = (data.soil_status || "").toLowerCase().trim();
-      const raw = data.raw_state;
+      const soil = String(data?.soil_status || "").toLowerCase().trim();
+      const raw = data?.raw_state;
 
       if (soil === "dry") return "dry";
       if (soil === "wet") return "wet";
@@ -435,7 +426,7 @@
     function formatTimestamp(ts) {
       if (!ts) return "--";
       const num = Number(ts);
-      if (Number.isNaN(num)) return "--";
+      if (Number.isNaN(num)) return String(ts);
 
       const ms = String(ts).length === 13 ? num : num * 1000;
       const d = new Date(ms);
@@ -511,12 +502,33 @@
         tipText.textContent = "Unable to determine soil status.";
       }
 
-      sensorPin.textContent = data.sensor_pin || "--";
-      timeText.textContent = formatTimestamp(data.timestamp);
-      relativeText.textContent = relativeTime(data.timestamp);
+      sensorPin.textContent = data?.sensor_pin || "--";
+      timeText.textContent = formatTimestamp(data?.timestamp);
+      relativeText.textContent = relativeTime(data?.timestamp);
+    }
+
+    async function loadHumidity() {
+      try {
+        const res = await fetch(API_URL, {
+          method: "GET",
+          cache: "no-store"
+        });
+
+        if (!res.ok) {
+          throw new Error("HTTP " + res.status);
+        }
+
+        const data = await res.json();
+        console.log("humidity data:", data);
+        applyUI(data);
+      } catch (err) {
+        console.error("Failed to load humidity data:", err);
+        applyUI({});
+      }
     }
 
     document.addEventListener("DOMContentLoaded", function () {
+      loadHumidity();
       const queryData = parseQuery();
       applyUI(queryData);
     });
