@@ -14,25 +14,68 @@ Instead of adopting a continuous periodic data-pushing mechanism, this project u
 
 ## Repository Structure
 
-This repository contains the main files of the project, including the CPEE model, robot programs, the Lehre-side interface, and the Orange Pi code.
+This repository contains the main components of the automatic plant watering system, including the CPEE workflow, robot control programs, the web-based UI, and the sensor interface running on the Orange Pi.
 
-```text
-.
-├── README.md
-├── cpee/
-│   └── cpee_process.xml
-├── robot_programs/
-│   ├── home.urp
-│   └── watering.urp
-├── lehre_code/
-│   └── humidity.html
-│   └── humidity.css
-├── orange_pi/
-│   └── soil_sensor.py
-└── media/
-    └── dry.png
-    └── wet.png
-```
+    .
+    ├── README.md
+    ├── cpee/
+    │   └── cpee_process.xml
+    ├── robot_programs/
+    │   ├── home.urp
+    │   └── watering.urp
+    ├── lehre_code/
+    │   ├── humidity.html
+    │   └── humidity.css
+    ├── orange_pi/
+    │   └── soil_sensor.py
+    ├── media/
+    │   ├── dry.png
+    │   └── wet.png
+
+### cpee/
+
+Contains the workflow definition for the automation logic.
+
+- cpee_process.xml: Defines the full CPEE process, including retrieving soil moisture data, deciding whether the soil is dry or wet, triggering the robot watering action, and updating the UI via frames_display.
+
+### robot_programs/
+
+Contains the UR robot programs used for physical actions.
+
+- home.urp: Moves the robot back to its initial home position.
+- watering.urp: Executes the watering motion when the soil is dry.
+
+### lehre_code/
+
+Contains the frontend UI displayed in the CPEE frame.
+
+- humidity.html: Main user interface for displaying soil moisture status, timestamp, sensor information, CPEE process states, and the manual check button.
+- humidity.css: Styles the UI layout, cards, status colors, moisture states, and responsive design.
+
+### orange_pi/
+
+Contains the sensor-side code running on the Orange Pi.
+
+- soil_sensor.py: A lightweight Bottle-based REST API that reads the soil moisture sensor connected to GPIO pin PH2 and returns the current moisture state as JSON.
+
+Example response:
+
+    {
+      "success": true,
+      "sensor_pin": "PH2",
+      "raw_state": 1,
+      "soil_status": "dry",
+      "timestamp": 1710000000
+    }
+
+In this project, raw_state = 1 means the soil is dry, while raw_state = 0 means the soil is wet. The service runs on port 18080 and is accessed by the CPEE workflow and the web UI.
+
+### media/
+
+Contains static media assets used in the project.
+
+- dry.png: Image used to represent dry soil.
+- wet.png: Image used to represent wet soil.
 
 ## UI Showcase
 
