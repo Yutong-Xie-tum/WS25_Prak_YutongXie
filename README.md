@@ -68,13 +68,6 @@ Example response:
 }
 ```
 
-In this project, the sensor values are interpreted as follows:
-
-| `raw_state` | `soil_status` | Meaning |
-|---:|---|---|
-| `1` | `dry` | The soil is dry and watering may be required. |
-| `0` | `wet` | The soil is wet and no watering is required. |
-
 ## UI Showcase
 
 The user interface of this project is designed to display the current soil moisture status in a clear and intuitive way.  
