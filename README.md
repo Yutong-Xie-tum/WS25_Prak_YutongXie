@@ -65,7 +65,7 @@ The interface indicates that the soil moisture is in a healthy state and no wate
 ## Demo Video
 
 The experimental demonstration video of this project is available here:  
-[YouTube Video](https://youtube.com/shorts/zLkMKInuSic?feature=share)
+[YouTube Video](https://youtu.be/TixHz-pkvQ8)
 
 ## Notes
 
