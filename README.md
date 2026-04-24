@@ -20,7 +20,7 @@ This repository contains the main files of the project, including the CPEE model
 .
 ├── README.md
 ├── cpee/
-│   └── gustav.xml
+│   └── cpee_process.xml
 ├── robot_programs/
 │   ├── home.urp
 │   └── watering.urp
