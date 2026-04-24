@@ -1,0 +1,424 @@
+:root {
+  --bg1: #eef7f2;
+  --bg2: #e8f2ff;
+  --card: rgba(255, 255, 255, 0.88);
+  --text: #18222d;
+  --muted: #6e7b87;
+  --line: rgba(24, 34, 45, 0.08);
+  --shadow: 0 20px 60px rgba(18, 38, 63, 0.12);
+  --radius-xl: 28px;
+  --radius-lg: 20px;
+}
+
+#humidity-app,
+#humidity-app * {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+#humidity-app {
+  min-height: 100vh;
+  padding: 28px 16px 40px;
+  font-family: Inter, Arial, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(124, 240, 174, 0.18), transparent 24%),
+    radial-gradient(circle at bottom right, rgba(127, 201, 255, 0.20), transparent 26%),
+    linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 100%);
+}
+
+#humidity-app .page {
+  width: min(1080px, 100%);
+  margin: 0 auto;
+}
+
+#humidity-app .hero {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+#humidity-app .hero-icon {
+  width: 74px;
+  height: 74px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 34px;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: var(--shadow);
+}
+
+#humidity-app .hero h1 {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+}
+
+#humidity-app .hero p {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+#humidity-app .card {
+  background: var(--card);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: var(--shadow);
+  border-radius: var(--radius-xl);
+  backdrop-filter: blur(10px);
+}
+
+#humidity-app .status-card {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 24px;
+  align-items: center;
+  padding: 28px;
+}
+
+#humidity-app .status-left {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+#humidity-app .status-badge {
+  width: 112px;
+  height: 112px;
+  border-radius: 24px;
+  display: grid;
+  place-items: center;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  flex-shrink: 0;
+}
+
+#humidity-app .eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+#humidity-app .status-texts h2 {
+  margin: 0 0 10px;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  line-height: 1;
+}
+
+#humidity-app .status-texts p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.04rem;
+}
+
+#humidity-app .hint {
+  margin-top: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+#humidity-app .status-right {
+  display: flex;
+  justify-content: center;
+}
+
+#humidity-app .ring {
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  padding: 16px;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+#humidity-app .ring::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+}
+
+#humidity-app .ring-inner {
+  width: 155px;
+  height: 155px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  display: grid;
+  place-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  box-shadow: inset 0 0 0 1px rgba(24, 34, 45, 0.05);
+  padding: 10px;
+}
+
+#humidity-app .ring-label {
+  display: block;
+  color: var(--muted);
+  font-size: 0.92rem;
+  margin-bottom: 4px;
+}
+
+#humidity-app .ring-inner strong {
+  font-size: 1.6rem;
+}
+
+#humidity-app .action-row {
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+}
+
+#humidity-app .check-btn {
+  border: none;
+  cursor: pointer;
+  padding: 14px 30px;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 800;
+  color: white;
+  background: linear-gradient(135deg, #18b87b, #13895c);
+  box-shadow: 0 14px 30px rgba(19, 137, 92, 0.22);
+}
+
+#humidity-app .check-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+#humidity-app .info-grid {
+  margin-top: 18px;
+  padding: 18px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+#humidity-app .info-item {
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.66);
+  border: 1px solid var(--line);
+}
+
+#humidity-app .info-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  font-size: 1.35rem;
+  background: rgba(24, 34, 45, 0.05);
+  flex-shrink: 0;
+}
+
+#humidity-app .label {
+  display: block;
+  font-size: 0.84rem;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+
+#humidity-app .info-item strong {
+  display: block;
+  font-size: 1.05rem;
+}
+
+#humidity-app .info-item small {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+#humidity-app .tip {
+  margin-top: 18px;
+  padding: 18px 20px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+#humidity-app .tip p {
+  margin: 0;
+  font-size: 0.98rem;
+}
+
+#humidity-app .footer-note {
+  text-align: center;
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 0.94rem;
+}
+
+#humidity-app.state-dry .status-badge {
+  background: linear-gradient(135deg, #fff1e8, #ffd8b8);
+  color: #d96a08;
+}
+
+#humidity-app.state-dry .status-texts h2,
+#humidity-app.state-dry .ring-inner strong,
+#humidity-app.state-dry .hint {
+  color: #d96a08;
+}
+
+#humidity-app.state-dry .ring::before {
+  background: conic-gradient(#ef8a17 0 28%, rgba(24, 34, 45, 0.08) 28% 100%);
+}
+
+#humidity-app.state-dry .tip {
+  background: linear-gradient(135deg, rgba(255, 244, 230, 0.96), rgba(255, 250, 245, 0.92));
+}
+
+#humidity-app.state-wet .status-badge {
+  background: linear-gradient(135deg, #e8fff6, #d4f8ea);
+  color: #13895c;
+}
+
+#humidity-app.state-wet .status-texts h2,
+#humidity-app.state-wet .ring-inner strong,
+#humidity-app.state-wet .hint {
+  color: #13895c;
+}
+
+#humidity-app.state-wet .ring::before {
+  background: conic-gradient(#18b87b 0 72%, rgba(24, 34, 45, 0.08) 72% 100%);
+}
+
+#humidity-app.state-wet .tip {
+  background: linear-gradient(135deg, rgba(233, 255, 246, 0.96), rgba(248, 255, 251, 0.92));
+}
+
+#humidity-app.state-unknown .status-badge {
+  background: linear-gradient(135deg, #f1f4f7, #e7edf3);
+  color: #607080;
+}
+
+#humidity-app.state-unknown .status-texts h2,
+#humidity-app.state-unknown .ring-inner strong,
+#humidity-app.state-unknown .hint {
+  color: #607080;
+}
+
+#humidity-app.state-unknown .ring::before {
+  background: conic-gradient(#94a3b8 0 50%, rgba(24, 34, 45, 0.08) 50% 100%);
+}
+
+#humidity-app.state-measuring .status-badge {
+  background: linear-gradient(135deg, #eef2ff, #dbeafe);
+  color: #4f46e5;
+}
+
+#humidity-app.state-measuring .status-texts h2,
+#humidity-app.state-measuring .ring-inner strong,
+#humidity-app.state-measuring .hint {
+  color: #4f46e5;
+}
+
+#humidity-app.state-measuring .ring::before {
+  background: conic-gradient(#6366f1 0 62%, rgba(24, 34, 45, 0.08) 62% 100%);
+}
+
+#humidity-app.state-watering .status-badge {
+  background: linear-gradient(135deg, #e8f2ff, #cfe5ff);
+  color: #2563eb;
+}
+
+#humidity-app.state-watering .status-texts h2,
+#humidity-app.state-watering .ring-inner strong,
+#humidity-app.state-watering .hint {
+  color: #2563eb;
+}
+
+#humidity-app.state-watering .ring::before {
+  background: conic-gradient(#3b82f6 0 88%, rgba(24, 34, 45, 0.08) 88% 100%);
+}
+
+#humidity-app.state-watering .tip {
+  background: linear-gradient(135deg, rgba(232, 242, 255, 0.96), rgba(248, 251, 255, 0.92));
+}
+
+#humidity-app.state-finished .status-badge {
+  background: linear-gradient(135deg, #edfdf3, #d8f8e3);
+  color: #15803d;
+}
+
+#humidity-app.state-finished .status-texts h2,
+#humidity-app.state-finished .ring-inner strong,
+#humidity-app.state-finished .hint {
+  color: #15803d;
+}
+
+#humidity-app.state-finished .ring::before {
+  background: conic-gradient(#22c55e 0 100%, rgba(24, 34, 45, 0.08) 100% 100%);
+}
+
+#humidity-app.state-finished .tip {
+  background: linear-gradient(135deg, rgba(237, 253, 243, 0.96), rgba(248, 255, 250, 0.92));
+}
+
+@media (max-width: 860px) {
+  #humidity-app .status-card {
+    grid-template-columns: 1fr;
+  }
+
+  #humidity-app .info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  #humidity-app .status-left {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #humidity-app .status-badge {
+    width: 92px;
+    height: 92px;
+    border-radius: 20px;
+  }
+
+  #humidity-app .ring {
+    width: 200px;
+    height: 200px;
+  }
+
+  #humidity-app .ring-inner {
+    width: 130px;
+    height: 130px;
+  }
+#humidity-app.state-dry .status-badge {
+  background: linear-gradient(135deg, #fff1e8, #ffd8b8) !important;
+  color: #d96a08 !important;
+}
+
+#humidity-app.state-dry .ring::before {
+  background: conic-gradient(#ef8a17 0 28%, rgba(24, 34, 45, 0.08) 28% 100%) !important;
+}
+
+#humidity-app.state-dry .status-texts h2,
+#humidity-app.state-dry .ring-inner strong,
+#humidity-app.state-dry .hint {
+  color: #d96a08 !important;
+}
+}

@@ -4,414 +4,97 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Soil Humidity Monitor</title>
-  <style>
-    :root {
-      --bg1: #eef7f2;
-      --bg2: #e8f2ff;
-      --card: rgba(255, 255, 255, 0.88);
-      --text: #18222d;
-      --muted: #6e7b87;
-      --line: rgba(24, 34, 45, 0.08);
-      --shadow: 0 20px 60px rgba(18, 38, 63, 0.12);
-      --radius-xl: 28px;
-      --radius-lg: 20px;
-      --radius-md: 14px;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html, body {
-      margin: 0;
-      min-height: 100%;
-      font-family: Inter, Arial, sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at top left, rgba(124, 240, 174, 0.18), transparent 24%),
-        radial-gradient(circle at bottom right, rgba(127, 201, 255, 0.20), transparent 26%),
-        linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 100%);
-    }
-
-    body {
-      padding: 28px 16px 40px;
-    }
-
-    .page {
-      width: min(1080px, 100%);
-      margin: 0 auto;
-    }
-
-    .hero {
-      text-align: center;
-      margin-bottom: 28px;
-    }
-
-    .hero-icon {
-      width: 74px;
-      height: 74px;
-      margin: 0 auto 14px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      font-size: 34px;
-      background: rgba(255,255,255,0.8);
-      box-shadow: var(--shadow);
-    }
-
-    .hero h1 {
-      margin: 0;
-      font-size: clamp(2rem, 5vw, 3.4rem);
-      line-height: 1.08;
-      letter-spacing: -0.03em;
-    }
-
-    .hero p {
-      margin: 12px 0 0;
-      color: var(--muted);
-      font-size: 1.05rem;
-    }
-
-    .card {
-      background: var(--card);
-      border: 1px solid rgba(255,255,255,0.7);
-      box-shadow: var(--shadow);
-      border-radius: var(--radius-xl);
-      backdrop-filter: blur(10px);
-    }
-
-    .status-card {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 24px;
-      align-items: center;
-      padding: 28px;
-    }
-
-    .status-left {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-    }
-
-    .status-badge {
-      width: 112px;
-      height: 112px;
-      border-radius: 24px;
-      display: grid;
-      place-items: center;
-      font-size: 1.05rem;
-      font-weight: 800;
-      letter-spacing: 0.12em;
-      flex-shrink: 0;
-    }
-
-    .eyebrow {
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      font-size: 0.78rem;
-      color: var(--muted);
-      margin-bottom: 8px;
-      font-weight: 700;
-    }
-
-    .status-texts h2 {
-      margin: 0 0 10px;
-      font-size: clamp(2.2rem, 5vw, 4rem);
-      line-height: 1;
-    }
-
-    .status-texts p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 1.04rem;
-    }
-
-    .hint {
-      margin-top: 10px;
-      font-size: 0.95rem;
-      font-weight: 600;
-    }
-
-    .status-right {
-      display: flex;
-      justify-content: center;
-    }
-
-    .ring {
-      width: 240px;
-      height: 240px;
-      border-radius: 50%;
-      padding: 16px;
-      position: relative;
-      display: grid;
-      place-items: center;
-    }
-
-    .ring::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-    }
-
-    .ring-inner {
-      width: 155px;
-      height: 155px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.9);
-      display: grid;
-      place-items: center;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-      box-shadow: inset 0 0 0 1px rgba(24, 34, 45, 0.05);
-      padding: 10px;
-    }
-
-    .ring-label {
-      display: block;
-      color: var(--muted);
-      font-size: 0.92rem;
-      margin-bottom: 4px;
-    }
-
-    .ring-inner strong {
-      font-size: 1.6rem;
-    }
-
-    .info-grid {
-      margin-top: 18px;
-      padding: 18px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-
-    .info-item {
-      border-radius: var(--radius-lg);
-      padding: 18px;
-      display: flex;
-      gap: 14px;
-      align-items: center;
-      background: rgba(255,255,255,0.66);
-      border: 1px solid var(--line);
-    }
-
-    .info-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 16px;
-      display: grid;
-      place-items: center;
-      font-size: 1.35rem;
-      background: rgba(24, 34, 45, 0.05);
-      flex-shrink: 0;
-    }
-
-    .label {
-      display: block;
-      font-size: 0.84rem;
-      color: var(--muted);
-      margin-bottom: 5px;
-    }
-
-    .info-item strong {
-      display: block;
-      font-size: 1.05rem;
-    }
-
-    .info-item small {
-      display: block;
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: 0.84rem;
-    }
-
-    .tip {
-      margin-top: 18px;
-      padding: 18px 20px;
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      border-radius: var(--radius-lg);
-      background: rgba(255,255,255,0.82);
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-    }
-
-    .tip p {
-      margin: 0;
-      font-size: 0.98rem;
-    }
-
-    .footer-note {
-      text-align: center;
-      margin-top: 18px;
-      color: var(--muted);
-      font-size: 0.94rem;
-    }
-
-    body.state-dry .status-badge {
-      background: linear-gradient(135deg, #fff1e8, #ffd8b8);
-      color: #d96a08;
-    }
-
-    body.state-dry .status-texts h2,
-    body.state-dry .ring-inner strong,
-    body.state-dry .hint {
-      color: #d96a08;
-    }
-
-    body.state-dry .ring::before {
-      background: conic-gradient(#ef8a17 0 28%, rgba(24,34,45,0.08) 28% 100%);
-    }
-
-    body.state-dry .tip {
-      background: linear-gradient(135deg, rgba(255,244,230,0.96), rgba(255,250,245,0.92));
-    }
-
-    body.state-wet .status-badge {
-      background: linear-gradient(135deg, #e8fff6, #d4f8ea);
-      color: #13895c;
-    }
-
-    body.state-wet .status-texts h2,
-    body.state-wet .ring-inner strong,
-    body.state-wet .hint {
-      color: #13895c;
-    }
-
-    body.state-wet .ring::before {
-      background: conic-gradient(#18b87b 0 72%, rgba(24,34,45,0.08) 72% 100%);
-    }
-
-    body.state-wet .tip {
-      background: linear-gradient(135deg, rgba(233,255,246,0.96), rgba(248,255,251,0.92));
-    }
-
-    body.state-unknown .status-badge {
-      background: linear-gradient(135deg, #f1f4f7, #e7edf3);
-      color: #607080;
-    }
-
-    body.state-unknown .status-texts h2,
-    body.state-unknown .ring-inner strong,
-    body.state-unknown .hint {
-      color: #607080;
-    }
-
-    body.state-unknown .ring::before {
-      background: conic-gradient(#94a3b8 0 50%, rgba(24,34,45,0.08) 50% 100%);
-    }
-
-    @media (max-width: 860px) {
-      .status-card {
-        grid-template-columns: 1fr;
-      }
-
-      .info-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 560px) {
-      .status-left {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .status-badge {
-        width: 92px;
-        height: 92px;
-        border-radius: 20px;
-      }
-
-      .ring {
-        width: 200px;
-        height: 200px;
-      }
-
-      .ring-inner {
-        width: 130px;
-        height: 130px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="https://lehre.bpm.in.tum.de/~ge94zaj/humidity.css?v=3">
 </head>
-<body class="state-unknown">
-  <main class="page">
-    <header class="hero">
-      <div class="hero-icon">💧</div>
-      <h1>Soil Humidity Monitor</h1>
-      <p>Real-time soil moisture status for your plant</p>
-    </header>
 
-    <section class="card status-card">
-      <div class="status-left">
-        <div class="status-badge" id="statusBadge">--</div>
+<body>
+  <div id="humidity-app" class="state-unknown">
+    <main class="page">
+      <header class="hero">
+        <div class="hero-icon">💧</div>
+        <h1>Soil Humidity Monitor</h1>
+        <p>Real-time soil moisture status for your plant</p>
+      </header>
 
-        <div class="status-texts">
-          <div class="eyebrow">Current Status</div>
-          <h2 id="statusText">Unknown</h2>
-          <p id="statusDesc">No valid humidity data available.</p>
-          <div class="hint" id="statusHint">Waiting for sensor data</div>
+      <section class="card status-card">
+        <div class="status-left">
+          <div class="status-badge" id="statusBadge">--</div>
+
+          <div class="status-texts">
+            <div class="eyebrow">Current Status</div>
+            <h2 id="statusText">Unknown</h2>
+            <p id="statusDesc">No valid humidity data available.</p>
+            <div class="hint" id="statusHint">Waiting for sensor data</div>
+          </div>
         </div>
-      </div>
 
-      <div class="status-right">
-        <div class="ring">
-          <div class="ring-inner">
-            <div>
-              <span class="ring-label">Moisture Level</span>
-              <strong id="ringText">--</strong>
+        <div class="status-right">
+          <div class="ring">
+            <div class="ring-inner">
+              <div>
+                <span class="ring-label">Moisture Level</span>
+                <strong id="ringText">--</strong>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="card info-grid">
-      <div class="info-item">
-        <div class="info-icon">📍</div>
-        <div>
-          <span class="label">Sensor Pin</span>
-          <strong id="sensorPin">--</strong>
+      <section class="action-row">
+        <button id="checkBtn" class="check-btn">Check Soil Moisture</button>
+      </section>
+
+      <section class="card info-grid">
+        <div class="info-item">
+          <div class="info-icon">📍</div>
+          <div>
+            <span class="label">Sensor Pin</span>
+            <strong id="sensorPin">--</strong>
+          </div>
         </div>
-      </div>
 
-      <div class="info-item">
-        <div class="info-icon">🕒</div>
-        <div>
-          <span class="label">Last Updated</span>
-          <strong id="timeText">--</strong>
-          <small id="relativeTime">--</small>
+        <div class="info-item">
+          <div class="info-icon">🕒</div>
+          <div>
+            <span class="label">Last Updated</span>
+            <strong id="timeText">--</strong>
+            <small id="relativeTime">--</small>
+          </div>
         </div>
-      </div>
 
-      <div class="info-item">
-        <div class="info-icon">📡</div>
-        <div>
-          <span class="label">Monitoring</span>
-          <strong id="monitorText">Live Status</strong>
+        <div class="info-item">
+          <div class="info-icon">📡</div>
+          <div>
+            <span class="label">Monitoring</span>
+            <strong id="monitorText">Manual Check</strong>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="tip">
-      <div>ℹ️</div>
-      <p id="tipText">Waiting for sensor data...</p>
-    </section>
+      <section class="tip">
+        <div>ℹ️</div>
+        <p id="tipText">Click the button to check the current soil moisture.</p>
+      </section>
 
-    <div class="footer-note">Better soil. Better plants.</div>
-  </main>
+      <div class="footer-note">Better soil. Better plants.</div>
+    </main>
+  </div>
 
   <script>
     const API_URL = "https://lehre.bpm.in.tum.de/ports/18080/";
 
+    function getEl(id) {
+      return document.getElementById(id);
+    }
+
+    function setAppState(stateClass) {
+      const app = getEl("humidity-app");
+      app.className = stateClass;
+    }
+
     function normalizeStatus(data) {
       const soil = String(data?.soil_status || "").toLowerCase().trim();
-      const raw = data?.raw_state;
+      const raw = data?.raw_state ?? data?.humidity;
 
       if (soil === "dry") return "dry";
       if (soil === "wet") return "wet";
@@ -423,7 +106,8 @@
     }
 
     function formatTimestamp(ts) {
-      if (!ts) return "--";
+      if (!ts || ts === "unknown") return "--";
+
       const num = Number(ts);
       if (Number.isNaN(num)) return String(ts);
 
@@ -442,7 +126,8 @@
     }
 
     function relativeTime(ts) {
-      if (!ts) return "--";
+      if (!ts || ts === "unknown") return "--";
+
       const num = Number(ts);
       if (Number.isNaN(num)) return "--";
 
@@ -463,51 +148,107 @@
       return `updated ${day} days ago`;
     }
 
-    function applyUI(data) {
-      const status = normalizeStatus(data);
-
-      document.body.className = "state-" + status;
-
-      const statusBadge = document.getElementById("statusBadge");
-      const statusText = document.getElementById("statusText");
-      const statusDesc = document.getElementById("statusDesc");
-      const statusHint = document.getElementById("statusHint");
-      const ringText = document.getElementById("ringText");
-      const sensorPin = document.getElementById("sensorPin");
-      const timeText = document.getElementById("timeText");
-      const relativeText = document.getElementById("relativeTime");
-      const tipText = document.getElementById("tipText");
-
-      if (status === "dry") {
-        statusBadge.textContent = "DRY";
-        statusText.textContent = "Dry";
-        statusDesc.textContent = "Soil needs watering soon.";
-        statusHint.textContent = "Low moisture detected";
-        ringText.textContent = "Low";
-        tipText.textContent = "Low moisture detected. Water the plant soon.";
-      } else if (status === "wet") {
-        statusBadge.textContent = "WET";
-        statusText.textContent = "Wet";
-        statusDesc.textContent = "Soil moisture is in a healthy state.";
-        statusHint.textContent = "Moisture level is good";
-        ringText.textContent = "Good";
-        tipText.textContent = "Soil moisture looks healthy. No watering needed now.";
-      } else {
-        statusBadge.textContent = "--";
-        statusText.textContent = "Unknown";
-        statusDesc.textContent = "No valid humidity data available.";
-        statusHint.textContent = "Waiting for sensor data";
-        ringText.textContent = "--";
-        tipText.textContent = "Unable to determine soil status.";
-      }
-
-      sensorPin.textContent = data?.sensor_pin || "--";
-      timeText.textContent = formatTimestamp(data?.timestamp);
-      relativeText.textContent = relativeTime(data?.timestamp);
+    function updateCommonInfo(data) {
+      getEl("sensorPin").textContent = data?.sensor_pin || "--";
+      getEl("timeText").textContent = formatTimestamp(data?.timestamp);
+      getEl("relativeTime").textContent = relativeTime(data?.timestamp);
     }
 
-    async function loadHumidity() {
+    function showUnknown() {
+      setAppState("state-unknown");
+
+      getEl("statusBadge").textContent = "--";
+      getEl("statusText").textContent = "Unknown";
+      getEl("statusDesc").textContent = "No valid humidity data available.";
+      getEl("statusHint").textContent = "Waiting for sensor data";
+      getEl("ringText").textContent = "--";
+      getEl("sensorPin").textContent = "--";
+      getEl("timeText").textContent = "--";
+      getEl("relativeTime").textContent = "--";
+      getEl("monitorText").textContent = "Manual Check";
+      getEl("tipText").textContent = "Click the button to check the current soil moisture.";
+    }
+
+    function showHumidity(data) {
+      const status = normalizeStatus(data);
+
+      if (status === "dry") {
+        setAppState("state-dry");
+
+        getEl("statusBadge").textContent = "DRY";
+        getEl("statusText").textContent = "Dry";
+        getEl("statusDesc").textContent = "Soil needs watering soon.";
+        getEl("statusHint").textContent = "Low moisture detected";
+        getEl("ringText").textContent = "Low";
+        getEl("monitorText").textContent = "Manual Check";
+        getEl("tipText").textContent = "Low moisture detected. Water the plant soon.";
+      } else if (status === "wet") {
+        setAppState("state-wet");
+
+        getEl("statusBadge").textContent = "WET";
+        getEl("statusText").textContent = "Wet";
+        getEl("statusDesc").textContent = "Soil moisture is in a healthy state.";
+        getEl("statusHint").textContent = "Moisture level is good";
+        getEl("ringText").textContent = "Good";
+        getEl("monitorText").textContent = "Manual Check";
+        getEl("tipText").textContent = "Soil moisture looks healthy. No watering needed now.";
+      } else {
+        showUnknown();
+        return;
+      }
+
+      updateCommonInfo(data);
+    }
+
+    function showMeasuring(data) {
+      setAppState("state-measuring");
+
+      getEl("statusBadge").textContent = "...";
+      getEl("statusText").textContent = "Measuring";
+      getEl("statusDesc").textContent = "CPEE is requesting the current soil moisture.";
+      getEl("statusHint").textContent = "Reading sensor data";
+      getEl("ringText").textContent = "...";
+      getEl("monitorText").textContent = "CPEE Active";
+      getEl("tipText").textContent = data?.message || "Measuring soil moisture...";
+
+      updateCommonInfo(data);
+    }
+
+    function showWatering(data) {
+      setAppState("state-watering");
+
+      getEl("statusBadge").textContent = "RUN";
+      getEl("statusText").textContent = "Watering";
+      getEl("statusDesc").textContent = "CPEE watering process is currently running.";
+      getEl("statusHint").textContent = "Watering in progress";
+      getEl("ringText").textContent = "Running";
+      getEl("monitorText").textContent = "CPEE Active";
+      getEl("tipText").textContent = data?.message || "The plant is being watered now.";
+
+      updateCommonInfo(data);
+    }
+
+    function showFinished(data) {
+      setAppState("state-finished");
+
+      getEl("statusBadge").textContent = "DONE";
+      getEl("statusText").textContent = "Finished";
+      getEl("statusDesc").textContent = "CPEE watering process has finished.";
+      getEl("statusHint").textContent = "Watering completed";
+      getEl("ringText").textContent = "Done";
+      getEl("monitorText").textContent = "CPEE Finished";
+      getEl("tipText").textContent = data?.message || "Watering has finished successfully.";
+
+      updateCommonInfo(data);
+    }
+
+    async function loadHumidityOnce() {
+      const btn = getEl("checkBtn");
+
       try {
+        btn.disabled = true;
+        btn.textContent = "Checking...";
+
         const res = await fetch(API_URL, {
           method: "GET",
           cache: "no-store"
@@ -518,18 +259,64 @@
         }
 
         const data = await res.json();
-        console.log("humidity data:", data);
-        applyUI(data);
+        showHumidity(data);
       } catch (err) {
         console.error("Failed to load humidity data:", err);
-        applyUI({});
+        showUnknown();
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Check Soil Moisture";
       }
     }
 
+    function readCpeeParams() {
+      const params = new URLSearchParams(window.location.search);
+      const data = {};
+
+      for (const [key, value] of params.entries()) {
+        data[key] = value;
+      }
+
+      return data;
+    }
+
+    function applyCpeeParams() {
+      const data = readCpeeParams();
+
+      const state = String(data.state || "").toLowerCase().trim();
+      const message = String(data.message || "").toLowerCase();
+
+      if (state === "measuring" || message.includes("measuring")) {
+        showMeasuring(data);
+        return;
+      }
+
+      if (state === "watering" || message.includes("watering is running")) {
+        showWatering(data);
+        return;
+      }
+
+      if (
+        state === "finished" ||
+        state === "done" ||
+        message.includes("watering finished") ||
+        message.includes("watering completed")
+      ) {
+        showFinished(data);
+        return;
+      }
+
+      if (data.soil_status || data.raw_state || data.humidity) {
+        showHumidity(data);
+        return;
+      }
+
+      showUnknown();
+    }
+
     document.addEventListener("DOMContentLoaded", function () {
-      loadHumidity();
-      const queryData = parseQuery();
-      applyUI(queryData);
+      getEl("checkBtn").addEventListener("click", loadHumidityOnce);
+      applyCpeeParams();
     });
   </script>
 </body>
