@@ -26,6 +26,7 @@ This repository contains the main files of the project, including the CPEE model
 │   └── watering.urp
 ├── lehre_code/
 │   └── humidity.html
+│   └── humidity.css
 ├── orange_pi/
 │   └── soil_sensor.py
 └── media/
